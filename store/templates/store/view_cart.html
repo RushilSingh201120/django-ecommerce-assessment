@@ -1,0 +1,133 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}My Shopping Cart | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>My Shopping Cart</h1>
+    <p>Review your items before proceeding to checkout.</p>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="card">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if items %}
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.product.name }}</strong>
+                        </td>
+
+                        <td>
+                            R{{ item.product.price|floatformat:2 }}
+                        </td>
+
+                        <td>
+                            <form
+                                method="post"
+                                action="{% url 'update_cart' item.id %}"
+                            >
+                                {% csrf_token %}
+
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    value="{{ item.quantity }}"
+                                    min="1"
+                                    max="{{ item.product.stock }}"
+                                    required
+                                    style="max-width: 90px;"
+                                >
+
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+
+                        <td>
+                            R{% widthratio item.product.price 1 item.quantity %}
+                        </td>
+
+                        <td>
+                            <form
+                                method="post"
+                                action="{% url 'remove_from_cart' item.id %}"
+                            >
+                                {% csrf_token %}
+                                <button type="submit" class="btn-danger">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Cart Summary</h2>
+
+        <p class="price">
+            Total: R{{ total|floatformat:2 }}
+        </p>
+
+        <p class="muted">
+            Please check your quantities and total before checkout.
+        </p>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a class="btn btn-secondary" href="{% url 'browse_products' %}">
+                Continue Shopping
+            </a>
+
+            <a class="btn" href="{% url 'checkout' %}">
+                Proceed to Checkout
+            </a>
+        </div>
+    </div>
+
+{% else %}
+
+    <div class="card">
+        <h2>Your Cart Is Empty</h2>
+
+        <p class="muted">
+            You haven't added any products to your shopping cart yet.
+        </p>
+
+        <a class="btn" href="{% url 'browse_products' %}">
+            Browse Products
+        </a>
+    </div>
+
+{% endif %}
+
+<div style="margin-top: 24px;">
+    <a class="btn btn-secondary" href="{% url 'buyer_dashboard' %}">
+        Back to Buyer Dashboard
+    </a>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,45 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Delete Product | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Delete Product</h1>
+    <p>Confirm whether you want to remove this product from your store.</p>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2>Are You Sure?</h2>
+
+    <p>
+        You are about to delete
+        <strong>{{ product.name }}</strong>.
+    </p>
+
+    <p class="muted">
+        This action may not be reversible. Please make sure you want
+        to proceed.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit" class="btn-danger">
+            Yes, Delete Product
+        </button>
+    </form>
+
+    <div style="margin-top: 24px;">
+        <a
+            class="btn btn-secondary"
+            href="{% url 'view_products' product.store.id %}"
+        >
+            Cancel
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+

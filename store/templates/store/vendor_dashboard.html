@@ -1,0 +1,57 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Vendor Dashboard | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Vendor Dashboard</h1>
+    <p>Welcome back, {{ request.user.username }}! Manage your stores, products and customer reviews from here.</p>
+</div>
+
+<div class="grid">
+
+    <div class="product-card">
+        <h3>Create a Store</h3>
+        <p class="muted">
+            Set up a new store to start offering products in the marketplace.
+        </p>
+        <a class="btn" href="{% url 'create_store' %}">
+            Create Store
+        </a>
+    </div>
+
+    <div class="product-card">
+        <h3>My Stores</h3>
+        <p class="muted">
+            View and manage your stores, including editing or deleting them.
+        </p>
+        <a class="btn" href="{% url 'view_stores' %}">
+            View My Stores
+        </a>
+    </div>
+
+    <div class="product-card">
+        <h3>Manage Products</h3>
+        <p class="muted">
+            Access your stores to create, update, and remove products.
+        </p>
+        <a class="btn" href="{% url 'view_stores' %}">
+            Manage Products
+        </a>
+    </div>
+
+    <div class="product-card">
+        <h3>Customer Reviews</h3>
+        <p class="muted">
+            Read customer ratings and comments for products in your stores.
+        </p>
+        <a class="btn" href="{% url 'vendor_reviews' %}">
+            View Customer Reviews
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

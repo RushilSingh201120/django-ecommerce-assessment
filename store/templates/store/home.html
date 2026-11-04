@@ -1,0 +1,92 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Welcome | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<section class="card" style="padding: 48px 32px; text-align: center;">
+    <p style="color: #16a394; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
+        Your online marketplace
+    </p>
+
+    <h1 style="font-size: clamp(2rem, 5vw, 3.2rem); color: #17324d; line-height: 1.2;">
+        Discover products.<br>
+        Shop with confidence.
+    </h1>
+
+    <p class="muted" style="max-width: 600px; margin: 20px auto 28px;">
+        Explore products from different stores, find what you need,
+        and enjoy a simple shopping experience all in one place.
+    </p>
+
+    {% if user.is_authenticated %}
+        {% if user.profile.role == 'buyer' %}
+            <a class="btn" href="{% url 'browse_products' %}">
+                Browse Products
+            </a>
+            <a class="btn btn-secondary" href="{% url 'view_cart' %}">
+                View Cart
+            </a>
+        {% elif user.profile.role == 'vendor' %}
+            <a class="btn" href="{% url 'vendor_dashboard' %}">
+                Go to Dashboard
+            </a>
+            <a class="btn btn-secondary" href="{% url 'view_stores' %}">
+                Manage Stores
+            </a>
+        {% endif %}
+    {% else %}
+        <a class="btn" href="{% url 'register' %}">
+            Get Started
+        </a>
+        <a class="btn btn-secondary" href="{% url 'login' %}">
+            Sign In
+        </a>
+    {% endif %}
+</section>
+
+<section class="page-heading" style="text-align: center; margin-top: 40px;">
+    <h1>Shopping made simple</h1>
+    <p>Everything you need for a convenient online shopping experience.</p>
+</section>
+
+<div class="grid">
+    <div class="product-card">
+        <h3>Browse Products</h3>
+        <p class="muted">
+            Discover products available from different stores.
+        </p>
+        {% if user.is_authenticated and user.profile.role == 'buyer' %}
+            <a href="{% url 'browse_products' %}">Explore products →</a>
+        {% else %}
+            <a href="{% url 'login' %}">Sign in to explore →</a>
+        {% endif %}
+    </div>
+
+    <div class="product-card">
+        <h3>Secure Shopping</h3>
+        <p class="muted">
+            Manage your cart and complete your checkout in one place.
+        </p>
+        {% if user.is_authenticated and user.profile.role == 'buyer' %}
+            <a href="{% url 'view_cart' %}">View your cart →</a>
+        {% else %}
+            <a href="{% url 'register' %}">Join our marketplace →</a>
+        {% endif %}
+    </div>
+
+    <div class="product-card">
+        <h3>Become a Vendor</h3>
+        <p class="muted">
+            Create a store and manage your products through your dashboard.
+        </p>
+        {% if user.is_authenticated and user.profile.role == 'vendor' %}
+            <a href="{% url 'vendor_dashboard' %}">Open dashboard →</a>
+        {% else %}
+            <a href="{% url 'register' %}">Create an account →</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

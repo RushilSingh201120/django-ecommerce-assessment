@@ -1,0 +1,100 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Search Products | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Search Products</h1>
+    <p>Find products from across our marketplace.</p>
+</div>
+
+<div class="card">
+    <form method="get" action="{% url 'search_products' %}">
+        <label for="search-query">Product name or keyword</label>
+
+        <input
+            type="text"
+            id="search-query"
+            name="q"
+            placeholder="Search for a product..."
+            value="{{ query }}"
+        >
+
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+{% if query %}
+    <div class="page-heading">
+        <h2>Search Results</h2>
+        <p>Showing results for "{{ query }}"</p>
+    </div>
+{% endif %}
+
+{% if products %}
+    <div class="grid">
+        {% for product in products %}
+            <div class="card product-card">
+                <h3>{{ product.name }}</h3>
+
+                <p>{{ product.description }}</p>
+
+                <p>
+                    <strong>Store:</strong>
+                    {{ product.store.name }}
+                </p>
+
+                <p class="price">R{{ product.price }}</p>
+
+                <p>
+                    <strong>Stock:</strong>
+                    {% if product.stock > 0 %}
+                        <span>{{ product.stock }} available</span>
+                    {% else %}
+                        <span>Out of stock</span>
+                    {% endif %}
+                </p>
+
+                <a
+                    class="btn"
+                    href="{% url 'product_detail' product.id %}"
+                >
+                    View Product Details
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+{% elif query %}
+    <div class="card">
+        <h3>No Products Found</h3>
+        <p>
+            We couldn't find any products matching "{{ query }}".
+            Try another product name or keyword.
+        </p>
+    </div>
+
+{% else %}
+    <div class="card">
+        <h3>Ready to Search?</h3>
+        <p>
+            Enter a product name or keyword in the search box above
+            to find products in our marketplace.
+        </p>
+    </div>
+{% endif %}
+
+<div style="margin-top: 24px;">
+    <a class="btn btn-secondary" href="{% url 'buyer_dashboard' %}">
+        Back to Buyer Dashboard
+    </a>
+
+    <a class="btn btn-secondary" href="{% url 'browse_products' %}">
+        Browse All Products
+    </a>
+</div>
+
+{% endblock %}
+

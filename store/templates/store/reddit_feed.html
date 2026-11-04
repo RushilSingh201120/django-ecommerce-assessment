@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Feed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .post {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .post a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .post a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reddit Community Feed</h1>
+
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post">
+                <h2>
+                    <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                <p>Posted by: {{ post.author }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No Reddit posts are currently available. Please try again later.</p>
+    {% endif %}
+</body>
+</html>

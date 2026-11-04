@@ -1,0 +1,70 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Customer Reviews | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Customer Reviews</h1>
+    <p>View feedback for products in your stores.</p>
+</div>
+
+<p>
+    <a class="btn" href="{% url 'vendor_dashboard' %}">
+        Back to Dashboard
+    </a>
+</p>
+
+{% if reviews %}
+    <div class="grid">
+        {% for review in reviews %}
+            <div class="product-card">
+                <h3>{{ review.product.name }}</h3>
+
+                <p>
+                    <strong>Store:</strong>
+                    {{ review.product.store.name }}
+                </p>
+
+                <p>
+                    <strong>Rating:</strong>
+                    {{ review.rating }}/5
+                </p>
+
+                <p>
+                    <strong>Comment:</strong><br>
+                    {{ review.comment|linebreaksbr }}
+                </p>
+
+                <p>
+                    <strong>Buyer:</strong>
+                    {{ review.user.username }}
+                </p>
+
+                <p>
+                    <strong>Purchase verification:</strong>
+                    {% if review.is_verified %}
+                        Verified purchase
+                    {% else %}
+                        Unverified purchase
+                    {% endif %}
+                </p>
+
+                <p class="muted">
+                    <strong>Date:</strong>
+                    {{ review.created_at|date:"d M Y, H:i" }}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="product-card">
+        <h3>No reviews yet</h3>
+        <p class="muted">
+            There are currently no reviews for products in your stores.
+        </p>
+    </div>
+{% endif %}
+
+{% endblock %}

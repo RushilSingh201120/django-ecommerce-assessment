@@ -1,0 +1,41 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Delete Store | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Delete Store</h1>
+    <p>Confirm whether you want to remove this store.</p>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2>Are You Sure?</h2>
+
+    <p>
+        You are about to delete the store
+        <strong>{{ store.name }}</strong>.
+    </p>
+
+    <p class="muted">
+        Please make sure you want to proceed before confirming this action.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit" class="btn-danger">
+            Yes, Delete Store
+        </button>
+    </form>
+
+    <div style="margin-top: 24px;">
+        <a class="btn btn-secondary" href="{% url 'view_stores' %}">
+            Cancel
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,79 @@
+ 
+{% extends 'store/base.html' %}
+
+{% block title %}My Orders | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>My Orders</h1>
+    <p>View your previous orders and access your invoices.</p>
+</div>
+
+{% if orders %}
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            <strong>{{ order.order_number }}</strong>
+                        </td>
+
+                        <td>
+                            {{ order.created_at|date:"d M Y, H:i" }}
+                        </td>
+
+                        <td class="price">
+                            R{{ order.total|floatformat:2 }}
+                        </td>
+
+                        <td>
+                            <a
+                                class="btn"
+                                href="{% url 'order_detail' order.id %}"
+                            >
+                                View Invoice
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% else %}
+
+    <div class="card">
+        <h2>No Orders Yet</h2>
+
+        <p class="muted">
+            You haven't placed any orders yet. Browse our marketplace
+            to find something you would like to purchase.
+        </p>
+
+        <a class="btn" href="{% url 'browse_products' %}">
+            Browse Products
+        </a>
+    </div>
+
+{% endif %}
+
+<div style="margin-top: 24px;">
+    <a class="btn btn-secondary" href="{% url 'buyer_dashboard' %}">
+        Back to Buyer Dashboard
+    </a>
+</div>
+
+{% endblock %}
+

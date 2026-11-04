@@ -1,0 +1,140 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}{{ product.name }} | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>{{ product.name }}</h1>
+    <p>View product information and customer reviews.</p>
+</div>
+
+<div class="card">
+    <p>
+        <strong>Store:</strong>
+        {{ product.store.name }}
+    </p>
+
+    <p>
+        <strong>Description:</strong>
+        {{ product.description }}
+    </p>
+
+    <p class="price">R{{ product.price }}</p>
+
+    <p>
+        <strong>Stock available:</strong>
+        {{ product.stock }}
+    </p>
+
+    {% if product.stock > 0 %}
+        <p style="color: #16845b; font-weight: bold;">
+            This product is available.
+        </p>
+
+        <a class="btn" href="{% url 'add_to_cart' product.id %}">
+            Add Product to Cart
+        </a>
+    {% else %}
+        <p style="color: #c0392b; font-weight: bold;">
+            This product is currently out of stock.
+        </p>
+    {% endif %}
+</div>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="page-heading">
+    <h2>Customer Reviews</h2>
+    <p>See what other customers think about this product.</p>
+</div>
+
+{% if reviews %}
+    {% for review in reviews %}
+        <div class="card">
+            <h3>{{ review.user.username }}</h3>
+
+            <p>
+                <strong>Rating:</strong>
+                <span class="price">{{ review.rating }}/5</span>
+            </p>
+
+            <p>{{ review.comment }}</p>
+
+            <p class="muted">
+                {{ review.created_at|date:"d M Y H:i" }}
+            </p>
+
+            {% if review.is_verified %}
+                <p style="color: #16845b; font-weight: bold;">
+                    ✓ Verified Purchase
+                </p>
+            {% else %}
+                <p class="muted">
+                    Unverified Purchase
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <p class="muted">
+            No reviews have been submitted for this product yet.
+        </p>
+    </div>
+{% endif %}
+
+<div class="card">
+    <h2>Write a Review</h2>
+    <p class="muted">Share your experience with this product.</p>
+
+    <form method="post" action="{% url 'submit_review' product.id %}">
+        {% csrf_token %}
+
+        <p>
+            <label for="rating">Rating:</label>
+            <select name="rating" id="rating" required>
+                <option value="">Select a rating</option>
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Very good</option>
+                <option value="3">3 - Good</option>
+                <option value="2">2 - Fair</option>
+                <option value="1">1 - Poor</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="comment">Your review:</label>
+            <textarea
+                name="comment"
+                id="comment"
+                rows="5"
+                required
+            ></textarea>
+        </p>
+
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <a class="btn btn-secondary" href="{% url 'browse_products' %}">
+        Back to Products
+    </a>
+
+    <a class="btn btn-secondary" href="{% url 'buyer_dashboard' %}">
+        Buyer Dashboard
+    </a>
+</div>
+
+{% endblock %}
+

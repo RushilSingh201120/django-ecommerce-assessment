@@ -1,0 +1,65 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Browse Products | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Browse Products</h1>
+    <p>Discover products available from stores across our marketplace.</p>
+</div>
+
+{% if products %}
+
+    <div class="grid">
+        {% for product in products %}
+
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+
+                <p class="muted">
+                    {{ product.description }}
+                </p>
+
+                <p>
+                    <strong>Store:</strong>
+                    {{ product.store.name }}
+                </p>
+
+                <p class="price">
+                    R{{ product.price }}
+                </p>
+
+                <p>
+                    <strong>Stock available:</strong>
+                    {{ product.stock }}
+                </p>
+
+                <a class="btn" href="{% url 'product_detail' product.id %}">
+                    View Product Details
+                </a>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% else %}
+
+    <div class="card">
+        <h3>No Products Available</h3>
+        <p class="muted">
+            There are currently no products available. Please check again later.
+        </p>
+    </div>
+
+{% endif %}
+
+<div style="margin-top: 24px;">
+    <a class="btn btn-secondary" href="{% url 'buyer_dashboard' %}">
+        Back to Buyer Dashboard
+    </a>
+</div>
+
+{% endblock %}
+

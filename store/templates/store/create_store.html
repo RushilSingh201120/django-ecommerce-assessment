@@ -1,0 +1,35 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Create Store | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Create a New Store</h1>
+    <p>Set up your store so you can start selling products.</p>
+</div>
+
+<div class="card" style="max-width: 650px; margin: 0 auto;">
+    <h2>Store Information</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Create Store</button>
+    </form>
+
+    <div style="margin-top: 24px;">
+        <a class="btn btn-secondary" href="{% url 'vendor_dashboard' %}">
+            Back to Vendor Dashboard
+        </a>
+
+        <a class="btn btn-secondary" href="{% url 'view_stores' %}">
+            My Stores
+        </a>
+    </div>
+</div>
+
+{% endblock %}

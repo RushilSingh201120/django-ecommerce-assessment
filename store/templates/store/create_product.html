@@ -1,0 +1,39 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Create Product | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Add a New Product</h1>
+    <p>Add a product to your store and make it available to buyers.</p>
+</div>
+
+<div class="card" style="max-width: 650px; margin: 0 auto;">
+    <h2>Product Information</h2>
+
+    <p class="muted">
+        Store: {{ store.name }}
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Create Product</button>
+    </form>
+
+    <div style="margin-top: 24px;">
+        <a
+            class="btn btn-secondary"
+            href="{% url 'view_products' store.id %}"
+        >
+            Back to Products
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+

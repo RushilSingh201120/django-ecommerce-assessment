@@ -1,0 +1,32 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Edit Store | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Edit Store</h1>
+    <p>Update your store information below.</p>
+</div>
+
+<div class="card" style="max-width: 650px; margin: 0 auto;">
+    <h2>Store Information</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <div style="margin-top: 24px;">
+        <a class="btn btn-secondary" href="{% url 'view_stores' %}">
+            Cancel
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,78 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}My Stores | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>My Stores</h1>
+    <p>Manage your stores and the products you sell.</p>
+</div>
+
+<div style="margin-bottom: 24px;">
+    <a class="btn" href="{% url 'create_store' %}">
+        Create New Store
+    </a>
+</div>
+
+{% if stores %}
+
+    <div class="grid">
+        {% for store in stores %}
+            <div class="card">
+                <h2>{{ store.name }}</h2>
+
+                <p>{{ store.description }}</p>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                    <a
+                        class="btn"
+                        href="{% url 'view_products' store.id %}"
+                    >
+                        Manage Products
+                    </a>
+
+                    <a
+                        class="btn btn-secondary"
+                        href="{% url 'edit_store' store.id %}"
+                    >
+                        Update Store
+                    </a>
+
+                    <a
+                        class="btn btn-danger"
+                        href="{% url 'delete_store' store.id %}"
+                    >
+                        Delete Store
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+
+    <div class="card">
+        <h2>No Stores Yet</h2>
+
+        <p class="muted">
+            You haven't created a store yet. Create your first store
+            to start adding and managing products.
+        </p>
+
+        <a class="btn" href="{% url 'create_store' %}">
+            Create Your First Store
+        </a>
+    </div>
+
+{% endif %}
+
+<div style="margin-top: 24px;">
+    <a class="btn btn-secondary" href="{% url 'vendor_dashboard' %}">
+        Back to Vendor Dashboard
+    </a>
+</div>
+
+{% endblock %}
+

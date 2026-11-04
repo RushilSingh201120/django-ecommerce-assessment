@@ -1,0 +1,94 @@
+
+{% extends 'store/base.html' %}
+
+{% block title %}Manage Products | eCommerce Store{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <h1>Manage Products</h1>
+    <p>Store: {{ store.name }}</p>
+</div>
+
+<div style="margin-bottom: 24px;">
+    <a class="btn" href="{% url 'create_product' store.id %}">
+        Add New Product
+    </a>
+</div>
+
+{% if products %}
+
+    <div class="grid">
+        {% for product in products %}
+            <div class="card product-card">
+                <h2>{{ product.name }}</h2>
+
+                <p>{{ product.description }}</p>
+
+                <p class="price">
+                    R{{ product.price|floatformat:2 }}
+                </p>
+
+                <p>
+                    <strong>Stock:</strong>
+                    {{ product.stock }}
+                </p>
+
+                {% if product.stock > 0 %}
+                    <p style="color: #16845b; font-weight: bold;">
+                        In Stock
+                    </p>
+                {% else %}
+                    <p style="color: #c0392b; font-weight: bold;">
+                        Out of Stock
+                    </p>
+                {% endif %}
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                    <a
+                        class="btn btn-secondary"
+                        href="{% url 'edit_product' product.id %}"
+                    >
+                        Edit Product
+                    </a>
+
+                    <a
+                        class="btn btn-danger"
+                        href="{% url 'delete_product' product.id %}"
+                    >
+                        Delete Product
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+
+    <div class="card">
+        <h2>No Products Yet</h2>
+
+        <p class="muted">
+            This store doesn't have any products yet. Add your first
+            product to start selling.
+        </p>
+
+        <a class="btn" href="{% url 'create_product' store.id %}">
+            Add Your First Product
+        </a>
+    </div>
+
+{% endif %}
+
+<div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;">
+    <a class="btn btn-secondary" href="{% url 'view_stores' %}">
+        Back to My Stores
+    </a>
+
+    <a class="btn btn-secondary" href="{% url 'vendor_dashboard' %}">
+        Vendor Dashboard
+    </a>
+</div>
+
+{% endblock %}
+
