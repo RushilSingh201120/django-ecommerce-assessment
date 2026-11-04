@@ -91,4 +91,4 @@ Environment files containing real credentials are excluded from version control.
 
 ## Notes
 
-This is an educational project. Configure your own database and email credentials before running it locally.
+Configure your own database and email credentials before running it locally.
